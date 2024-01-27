@@ -5,9 +5,9 @@ console.log(galleryItems);
 
 const divSelector = document.querySelector(".gallery");
 
-const divGallery = (items) => {
-    return items
-        .map(item => `<div class="gallery__item">
+const divGallery = galleryItems
+  .map(item =>
+  `<div class="gallery__item">
   <a class="gallery__link" href="${item.original}">
     <img
       class="gallery__image"
@@ -17,13 +17,10 @@ const divGallery = (items) => {
     />
   </a>
 </div>`)
-        .join("");
-    
-}
+  .join("");
 
-const makeGallery = divGallery(galleryItems);
 
-divSelector.innerHTML = makeGallery;
+divSelector.innerHTML = divGallery;
 
 divSelector.addEventListener("click", (event) => {
     event.preventDefault();
