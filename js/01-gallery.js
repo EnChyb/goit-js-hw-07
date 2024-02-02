@@ -22,24 +22,36 @@ const divGallery = galleryItems
 
 divSelector.innerHTML = divGallery;
 
-divSelector.addEventListener("click", (event) => {
-    event.preventDefault();
+const instance = basicLightbox.create(`
+  <img src="" width="800" height="600">
+  `,
+  {
+    onShow: (instance) => window.addEventListener("keydown", onEscape),
+    onClose: (instance) => window.removeEventListener("keydown", onEscape),
+  }
+);
 
-    if (event.target.nodeName !== "IMG") { 
-        return
+
+function onImgClick (event) {
+event.preventDefault();
+  const imgSource = event.target.dataset.source;
+if (!imgSource) {
+    return
+}
+  instance.element().querySelector("img").src = imgSource
+
+  instance.show();
+}
+
+divSelector.addEventListener("click", onImgClick);
+
+function onEscape (event) {
+  if (event.code === "Escape") {
+    instance.close();
+
+  }
+
     }
 
-    const instance = basicLightbox.create(`
-    <img src="${event.target.dataset.source}" width="800" height="600">
-    `);
-    instance.show();
-
-    divSelector.addEventListener("keydown", (event) => {
-        if (event.code === "Escape") {
-            instance.close();
-        }
-    })
 
 
-
-})
